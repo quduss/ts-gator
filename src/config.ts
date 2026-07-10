@@ -24,3 +24,12 @@ function validateConfig(rawConfig: any) {
 
   return config;
 }
+
+export function readConfig() {
+  const fullPath = getConfigFilePath();
+
+  const data = fs.readFileSync(fullPath, "utf-8");
+  const rawConfig = JSON.parse(data);
+
+  return validateConfig(rawConfig);
+}
