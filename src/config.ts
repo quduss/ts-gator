@@ -33,3 +33,15 @@ export function readConfig() {
 
   return validateConfig(rawConfig);
 }
+
+function writeConfig(config: Config) {
+  const fullPath = getConfigFilePath();
+
+  const rawConfig = {
+    db_url: config.dbUrl,
+    current_user_name: config.currentUserName,
+  };
+
+  const data = JSON.stringify(rawConfig, null, 2);
+  fs.writeFileSync(fullPath, data, { encoding: "utf-8" });
+}
