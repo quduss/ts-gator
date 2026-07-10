@@ -12,3 +12,15 @@ function getConfigFilePath() {
   const homeDir = os.homedir();
   return path.join(homeDir, configFileName);
 }
+
+function validateConfig(rawConfig: any) {
+  if (!rawConfig.db_url || typeof rawConfig.db_url !== "string") {
+    throw new Error("db_url is required in config file");
+  }
+  const config: Config = {
+    dbUrl: rawConfig.db_url,
+    currentUserName: rawConfig.current_user_name ?? "",
+  };
+
+  return config;
+}
