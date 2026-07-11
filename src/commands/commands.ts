@@ -9,3 +9,16 @@ export function registerCommand(
 ): void {
   registry[cmdName] = handler;
 }
+
+export function runCommand(
+  registry: CommandsRegistry,
+  cmdName: string,
+  ...args: string[]
+): void {
+  const handler = registry[cmdName];
+  if (!handler) {
+    throw new Error(`Unknown command: ${cmdName}`);
+  }
+
+  handler(cmdName, ...args);
+}
