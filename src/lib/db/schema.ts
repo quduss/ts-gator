@@ -24,5 +24,24 @@ export const feeds = pgTable("feeds", {
     .notNull(),
 });
 
+export const feedFollows = pgTable(
+  "feed_follows",
+  {
+    id: uuid("id").primaryKey().defaultRandom().notNull(),
+    createdAt: timestamp("created_at").notNull().defaultNow(),
+    updatedAt: timestamp("updated_at")
+      .notNull()
+      .defaultNow()
+      .$onUpdate(() => new Date()),
+    userId: uuid("user_id")
+      .references(() => users.id, { onDelete: "cascade" })
+      .notNull(),
+    feedId: uuid("feed_id")
+      .notNull()
+      .references(() => feeds.id, { onDelete: "cascade" }),
+  },
+  (t) => ({ unq: unique().on(t.userId, t.feedId) }),
+);
+
 export type User = typeof users.$inferSelect;
 export type Feed = typeof feeds.$inferSelect;
