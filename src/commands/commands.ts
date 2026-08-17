@@ -31,4 +31,4 @@ export type UserCommandHandler = (
   cmdName: string,
   user: User,
   ...args: string[]
-) => Promise<void> | void;
+) => Promise<void>;
