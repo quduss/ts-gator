@@ -22,13 +22,7 @@ export async function handlerFollow(cmdName: string, user: User, ...args: string
   printFeedFollow(ffRow.userName, ffRow.feedName);
 }
 
-export async function handlerListFeedFollows(_: string) {
-  const config = readConfig();
-  const user = await getUser(config.currentUserName);
-
-  if (!user) {
-    throw new Error(`User ${config.currentUserName} not found`);
-  }
+export async function handlerListFeedFollows(_: string, user: User) {
 
   const feedFollows = await getFeedFollowsForUser(user.id);
   if (feedFollows.length === 0) {
