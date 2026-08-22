@@ -32,3 +32,9 @@ async function scrapeFeeds() {
   console.log(`Found a feed to fetch!`);
   await scrapeFeed(feed);
 }
+
+function handleError(err: unknown) {
+  console.error(
+    `Error scraping feeds: ${err instanceof Error ? err.message : err}`,
+  );
+}
