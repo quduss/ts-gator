@@ -1,5 +1,5 @@
 import { fetchFeed } from "../lib/rss";
-import { markFeedFetched } from "src/lib/db/queries/feeds";
+import { markFeedFetched, getNextFeedToFetch } from "src/lib/db/queries/feeds";
 import { Feed } from "src/lib/db/schema";
 
 export async function handlerAgg(_: string) {
@@ -21,4 +21,14 @@ async function scrapeFeed(feed: Feed) {
   console.log(
     `Feed ${feed.name} collected, ${feedData.channel.item.length} posts found`,
   );
+}
+
+async function scrapeFeeds() {
+  const feed = await getNextFeedToFetch();
+  if (!feed) {
+    console.log(`No feeds to fetch.`);
+    return;
+  }
+  console.log(`Found a feed to fetch!`);
+  await scrapeFeed(feed);
 }
